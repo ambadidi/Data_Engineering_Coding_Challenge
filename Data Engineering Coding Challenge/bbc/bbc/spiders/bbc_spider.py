@@ -7,32 +7,14 @@ import requests
 class BbcSpiderSpider(scrapy.Spider):
     name = 'bbc_spider'
   #  allowed_domains = ['bbc.com']
-    #start_urls = ['https://www.bbc.com/news/world-europe-52165522']
+  #   start_urls = ['https://www.bbc.com/news/world-europe-52165522']
     start_urls = ['https://www.theguardian.com/world/2020/apr/05/french-police-terrorism-inquiry-two-killed-stabbing-romans-sur-isere']
 
-
-    # page = requests.get('https://www.bbc.com/news/world-europe-52165522')
-    # page = requests.get('https://www.theguardian.com/world/2020/apr/05/french-police-terrorism-inquiry-two-killed-stabbing-romans-sur-isere')
-    # tree = html.fromstring(page.content)
-    # article_author = tree.xpath('//meta[@property="article:author"]/@content')
-    # article_publisher = tree.xpath('//meta[@property="article:publisher"]/@content')
-    # article__published_time = tree.xpath('//meta[@property="article:published_time"]/@content')
-    # article_url = tree.xpath('//meta[@property="og:url"]/@content')
-    # article_headline = tree.xpath('//meta[@property="og:title"]/@content')
-    # article_tag = tree.xpath('//meta[@property="article:tag"]/@content')
-
-
-
-    # print('Article URL = ', article_url)
-    # print('Article headline = ', article_headline)
-    # print ('Article Author = ', article_author)
-    # print ('Article Publisher = ', article_publisher)
-    # print ('Article Published time = ', article__published_time)
-    # print ('Article tags = ', article_tag)
     def parse(self, response):
         items = BbcItem()
         page = requests.get(
             'https://www.theguardian.com/world/2020/apr/05/french-police-terrorism-inquiry-two-killed-stabbing-romans-sur-isere')
+        # page = requests.get('https://www.bbc.com/news/world-europe-52165522')
         tree = html.fromstring(page.content)
 
         article_text = response.css('p::text').extract()
@@ -56,7 +38,4 @@ class BbcSpiderSpider(scrapy.Spider):
         article_author = tree.xpath('//meta[@property="article:author"]/@content')
         items['article_author'] = article_author
 
-        # article_publisher = tree.xpath('//meta[@property="article:publisher"]/@content')
-        # items['article_publisher'] = article_publisher
         yield items
-        # print( items)
